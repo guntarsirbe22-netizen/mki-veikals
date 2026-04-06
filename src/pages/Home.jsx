@@ -4,32 +4,30 @@ export default function Home() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch("/api/products")
+    fetch("https://mki-veikals.onrender.com/products")
       .then(res => res.json())
       .then(data => setProducts(data));
   }, []);
 
   return (
     <div style={{ padding: "40px" }}>
-      <h2>Populārākie produkti</h2>
+      <h2>Produkti</h2>
 
       <div style={{
         display: "grid",
         gridTemplateColumns: "repeat(4, 1fr)",
-        gap: "20px",
-        marginTop: "20px"
+        gap: "20px"
       }}>
         {products.map(p => (
           <div key={p.id} style={{
             background: "#fff",
             padding: "20px",
-            borderRadius: "12px",
-            textAlign: "center"
+            borderRadius: "12px"
           }}>
-            <img src={p.image} style={{ width: "100%" }} />
-            <h4>{p.name}</h4>
-            <p>€ {p.price}</p>
-            <button>Pievienot grozam</button>
+            <img src={p.img} style={{ width: "100%" }} />
+            <h3>{p.name}</h3>
+            <p>€{p.price}</p>
+            <button>Pirkt</button>
           </div>
         ))}
       </div>
