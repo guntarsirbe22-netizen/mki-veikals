@@ -1,30 +1,38 @@
+import { useEffect, useState } from "react";
 
-import {useEffect,useState} from "react";
-import {useCart} from "../CartContext";
+export default function Home() {
+  const [products, setProducts] = useState([]);
 
-export default function Home(){
- const [products,setProducts]=useState([]);
- const {add}=useCart();
+  useEffect(() => {
+    fetch("/api/products")
+      .then(res => res.json())
+      .then(data => setProducts(data));
+  }, []);
 
- useEffect(()=>{
-  fetch("http://localhost:5000/products")
-   .then(r=>r.json()).then(setProducts);
- },[]);
+  return (
+    <div style={{ padding: "40px" }}>
+      <h2>Populārākie produkti</h2>
 
- return(
-  <>
-   <div style={{background:"#000",color:"#fff",padding:"100px"}}>
-    <h1>Premium aromāti</h1>
-   </div>
-
-   <div>
-    {products.map(p=>(
-     <div key={p.id}>
-      {p.name} €{p.price}
-      <button onClick={()=>add(p)}>Add</button>
-     </div>
-    ))}
-   </div>
-  </>
- );
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(4, 1fr)",
+        gap: "20px",
+        marginTop: "20px"
+      }}>
+        {products.map(p => (
+          <div key={p.id} style={{
+            background: "#fff",
+            padding: "20px",
+            borderRadius: "12px",
+            textAlign: "center"
+          }}>
+            <img src={p.image} style={{ width: "100%" }} />
+            <h4>{p.name}</h4>
+            <p>€ {p.price}</p>
+            <button>Pievienot grozam</button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
